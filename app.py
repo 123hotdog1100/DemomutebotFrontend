@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, abort
 
 app = Flask(__name__)
 api = Api(app)
@@ -9,8 +9,14 @@ put_args.add_argument("prefix", type=str, help="Prefix of bot")
 
 ids = {}
 
+
+def abort_if_not(ID):
+    if ID not in ids:
+        abort("ID is not valid")
+
+
 class Backend(Resource):
-    def get(self,ID):
+    def get(self, ID):
         return ids[ID]
 
     def post(self):
@@ -18,9 +24,8 @@ class Backend(Resource):
 
     def put(self, ID):
         args = put_args.parse_args()
-        return {ID: args}
-
-
+        ids[ID] = args
+        return ids[ID], 201
 
 
 api.add_resource(Backend, "/helloworld/<int:ID>")
