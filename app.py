@@ -17,6 +17,7 @@ def abort_if_not(ID):
 
 class Backend(Resource):
     def get(self, ID):
+        abort_if_not(ID)
         return ids[ID]
 
     def post(self):
