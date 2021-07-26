@@ -6,6 +6,9 @@ from views import views
 from auth import auth
 import TwitchAPI as T
 
+Tauth = T.getOauth()
+
+
 app = Flask(__name__)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -13,7 +16,6 @@ app.config['SECRET_KEY'] = "sjabndfkmdn"
 
 db.init_app(app)
 
-Tauth = T.getOauth()
 
 put_args = reqparse.RequestParser()
 put_args.add_argument("prefix", type=str, help="Prefix of bot", required=True)

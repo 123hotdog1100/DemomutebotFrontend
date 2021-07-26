@@ -18,8 +18,9 @@ def getOauth():  # This function gets the oauth2 token which is required for int
         print(e)
 
 
+getOauth()
+
 def checkUser(username, oauth):  # Checks to see if someone is live
-    global CLIENT_ID
     HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
     URL = BASE_URL + 'streams?user_login=' + username
     try:
