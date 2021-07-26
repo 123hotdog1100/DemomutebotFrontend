@@ -1,8 +1,10 @@
-from flask import Flask
+import flask
+from flask import Flask, Response
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from model import ServerModel, db
 from views import views
 from auth import auth
+import TwitchAPI as T
 
 app = Flask(__name__)
 api = Api(app)
@@ -11,24 +13,31 @@ app.config['SECRET_KEY'] = "sjabndfkmdn"
 
 db.init_app(app)
 
-
-
+Tauth = T.getOauth()
 
 put_args = reqparse.RequestParser()
 put_args.add_argument("prefix", type=str, help="Prefix of bot", required=True)
 put_args.add_argument("twitch", type=str, help="Twitch username")
 
-
 update_args = reqparse.RequestParser()
 update_args.add_argument("prefix", type=str, help="Prefix of bot")
 update_args.add_argument("twitch", type=str, help="Twitch username")
-
 
 resource_fields = {
     'id': fields.Integer,
     'twitch': fields.String,
     'prefix': fields.String
 }
+
+sync_args = reqparse.RequestParser()
+sync_args.add_argument("Command", type=str, help="The command you wish to run", required=True)
+sync_args.add_argument("ID", type=str, help="Server ID", required=True)
+sync_args.add_argument("Username", type=str, help="Username")
+
+sync_put_args = reqparse.RequestParser()
+sync_put_args.add_argument("ID", type=str, help="Server ID", required=True)
+
+checked = []
 
 
 class Backend(Resource):
@@ -69,7 +78,37 @@ class Backend(Resource):
         return result
 
 
+class sync(Resource):
+    def get(self, ID):
+        check = "No"
+        args = sync_args.parse_args()
+        username = args['Username']
+        if args['Command'] == 'checkuser':  ##Checks to see if someone is live
+            check = T.checkUser(username, Tauth)
+        if args['Command'] == 'getstream':  ##Returns the stream title
+            check = T.getstream(username, Tauth)
+        if args['Command'] == 'getchecked':  ##Returns the stream title
+            if ID in checked:
+                return 201
+
+        return check, 200
+
+    def put(self, ID):
+        #args = sync_put_args.parse_args()
+        #args[ID] = args
+        checked.append(ID)
+        return 201
+
+    def patch(self, ID):
+        if ID in checked:
+            checked.remove(ID)
+            return 200
+        else:
+            abort(404, message="ID not checked")
+
+
 api.add_resource(Backend, "/api/<int:ID>")
+api.add_resource(sync, "/sync/<int:ID>")
 app.register_blueprint(views, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')
 
