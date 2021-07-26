@@ -2,8 +2,8 @@ import requests
 import dotenv
 
 BASE_URL = 'https://api.twitch.tv/helix/'
-CLIENT_ID = dotenv.get_key(".env", "TWITCHAPI")
-CLIENT_SECRET = dotenv.get_key(".env", 'TWITCHAPISECRET')
+CLIENT_ID = dotenv.get_key("./.env", "TWITCHAPI")
+CLIENT_SECRET = dotenv.get_key("./.env", 'TWITCHAPISECRET')
 OAUTHHEADERS = {'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET, 'grant_type': 'client_credentials'}
 OAUTHURL = "https://id.twitch.tv/oauth2/token"
 
