@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = "sjabndfkmdn"
 
 db.init_app(app)
 
-Tauth = T.getOauth()
+Tauth = str(T.getOauth())
 
 put_args = reqparse.RequestParser()
 put_args.add_argument("prefix", type=str, help="Prefix of bot", required=True)
