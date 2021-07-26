@@ -1,5 +1,5 @@
 Flask-SQLAlchemy
 Flask
 flask-restful
-dotenv
+python-dotenv
 requirements
