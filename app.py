@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from flask_sqlalchemy import SQLAlchemy
+from model import ServerModel, db
 from views import views
 from auth import auth
 
@@ -8,19 +8,10 @@ app = Flask(__name__)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = "sjabndfkmdn"
-app.register_blueprint(views, url_prefix='/')
-app.register_blueprint(auth, url_prefix='/')
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
 
-class ServerModel(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    twitch = db.Column(db.String(100))
-    prefix = db.Column(db.String(2), nullable=False)
-
-    def __repr__(self):
-        return f"ID(id={id})"
 
 
 put_args = reqparse.RequestParser()
@@ -70,15 +61,17 @@ class Backend(Resource):
             abort(404, message="Server not found")
 
         if args["prefix"]:
-            result.name = args["prefix"]
+            result.prefix = args["prefix"]
         if args["twitch"]:
-            result.name = args["twitch"]
+            result.twitch = args["twitch"]
 
         db.session.commit()
         return result
 
 
 api.add_resource(Backend, "/api/<int:ID>")
+app.register_blueprint(views, url_prefix='/')
+app.register_blueprint(auth, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(debug=True)

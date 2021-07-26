@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %} Settings {% endblock %}
+
+{% block content %}
+   <form method="POST">
+   <h3 align="center">Options</h3>
+   <div class="form-group">
+       <label for="prefix">Server id</label>
+       <input type="text" class="form-control" id="id" name="id" placeholder="Server ID"/>
+
+   </div>
+   <div class="form-group">
+       <label for="prefix">Bot Prefix</label>
+       <input type="text" class="form-control" id="prefix" name="prefix" placeholder="Bot prefix"/>
+
+   </div>
+   <div class="form-group">
+       <label for="Twitch username">Twitch Username</label>
+       <input type="text" class="form-control" id="twitch" name="twitch" placeholder="Please inset your twitch username"/>
+   </div>
+
+
+
+
+   <br />
+   <button type="submit" class="btn btn-primary">Submit</button>
+   </form>
+{% endblock %}
