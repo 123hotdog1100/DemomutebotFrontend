@@ -2,4 +2,4 @@ Flask-SQLAlchemy
 Flask
 flask-restful
 python-dotenv
-requirements
+requests
