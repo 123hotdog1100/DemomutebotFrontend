@@ -19,7 +19,7 @@ def getOauth():  # This function gets the oauth2 token which is required for int
         print(e)
 
 
-def checkUser(username: str, oauth):  # Checks to see if someone is live
+def checkUser(username, oauth):  # Checks to see if someone is live
     HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
     URL = BASE_URL + 'streams?user_login=' + username
     try:
@@ -34,7 +34,7 @@ def checkUser(username: str, oauth):  # Checks to see if someone is live
         return False
 
 
-def getUserID(username: str, oauth):  # Gets the USERSID based on the Username they are given and also uses the OAUTH token
+def getUserID(username, oauth):  # Gets the USERSID based on the Username they are given and also uses the OAUTH token
     # generated above
     HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
     URL = BASE_URL + "users?login=" + username
@@ -52,7 +52,7 @@ def getUserID(username: str, oauth):  # Gets the USERSID based on the Username t
     #   print("Error getting ID for: ", Username, "Caused by: ", e)
 
 
-def getstream(username: str, oauth):
+def getstream(username, oauth):
     TWITCHURL = " https://www.twitch.tv/demomute"
     HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
     URL = BASE_URL + 'streams?user_login=' + username
