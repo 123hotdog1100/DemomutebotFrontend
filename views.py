@@ -8,7 +8,7 @@ update_args = reqparse.RequestParser()
 update_args.add_argument("prefix", type=str, help="Prefix of bot")
 update_args.add_argument("twitch", type=str, help="Twitch username")
 
-auth = T.getOauth()
+Tauth = T.getOauth()
 
 
 @views.route('/settings', methods=['GET', 'POST'])
@@ -30,7 +30,7 @@ def settings():
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
-    check = T.checkUser("demomute", auth)
+    check = T.checkUser("demomute", Tauth)
 
     if check:
         output = "Yes"
