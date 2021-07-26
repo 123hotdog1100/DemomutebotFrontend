@@ -6,7 +6,7 @@ CLIENT_ID = dotenv.get_key(".env", "TWITCHAPI")
 CLIENT_SECRET = dotenv.get_key(".env", 'TWITCHAPISECRET')
 OAUTHHEADERS = {'client_id': CLIENT_ID, 'client_secret': CLIENT_SECRET, 'grant_type': 'client_credentials'}
 OAUTHURL = "https://id.twitch.tv/oauth2/token"
-
+global CLIENT_ID
 
 def getOauth():  # This function gets the oauth2 token which is required for interacting with the twitchAPI
     try:
@@ -20,6 +20,7 @@ def getOauth():  # This function gets the oauth2 token which is required for int
 
 
 def checkUser(username, oauth):  # Checks to see if someone is live
+    global CLIENT_ID
     HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
     URL = BASE_URL + 'streams?user_login=' + username
     try:
