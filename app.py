@@ -5,9 +5,9 @@ from model import ServerModel, db
 from views import views
 from auth import auth
 import TwitchAPI as T
+from multiprocessing import Process, Value
 
 Tauth = T.getOauth()
-
 
 app = Flask(__name__)
 api = Api(app)
@@ -15,7 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = "sjabndfkmdn"
 
 db.init_app(app)
-
 
 put_args = reqparse.RequestParser()
 put_args.add_argument("prefix", type=str, help="Prefix of bot", required=True)
@@ -96,10 +95,11 @@ class sync(Resource):
         return check, 200
 
     def put(self, ID):
-        #args = sync_put_args.parse_args()
-        #args[ID] = args
+        # args = sync_put_args.parse_args()
+        # args[ID] = args
         checked.append(ID)
-        return 201
+        print(checked)
+        return True, 201
 
     def patch(self, ID):
         if ID in checked:

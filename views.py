@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 from model import ServerModel, db
 from flask_restful import reqparse
 import TwitchAPI as T
+import requests
 
 views = Blueprint('views', __name__)
 update_args = reqparse.RequestParser()
@@ -27,13 +28,20 @@ def settings():
 
     return render_template("Settings.html")
 
+BASE = "http://127.0.0.1:5000/"
+
+def checking(ID):
+    r = requests.get(BASE + "sync/1", {'Command': 'getchecked', 'ID': ID})
+    if r.json() == 201:
+        return True
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
     check = T.checkUser(username, Tauth)
+    output2 = checking(1)
 
     if check:
         output = "Yes"
     elif not check:
         output = "No"
-    return render_template("Home.html", check=output)
+    return render_template("Home.html", check=output, check2=output2)
