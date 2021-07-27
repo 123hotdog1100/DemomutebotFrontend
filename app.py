@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = "sjabndfkmdn"
 
 db.init_app(app)
-
+db.create_all(app=app)
 put_args = reqparse.RequestParser()
 put_args.add_argument("prefix", type=str, help="Prefix of bot", required=True)
 put_args.add_argument("twitch", type=str, help="Twitch username")
