@@ -115,4 +115,4 @@ app.register_blueprint(views, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0", port="80")
+    app.run(debug=False, host="0.0.0.0", port=80)

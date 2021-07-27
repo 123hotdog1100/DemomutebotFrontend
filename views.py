@@ -28,7 +28,7 @@ def settings():
 
     return render_template("Settings.html")
 
-BASE = "http://127.0.0.1:5000/"
+BASE = "http://127.0.0.1:80/"
 
 def checking(ID):
     r = requests.get(BASE + "sync/1", {'Command': 'getchecked', 'ID': ID})
