@@ -88,9 +88,11 @@ class sync(Resource):
             check = T.checkUser(username, Tauth)
         if args['Command'] == 'getstream':  ##Returns the stream title
             check = T.getstream(username, Tauth)
-        if args['Command'] == 'getchecked':  ##Returns the stream title
+        if args['Command'] == 'getchecked':  ##returns success if the id is in the checked list
             if ID in checked:
                 return 201
+            else:
+                return 200
 
         return check, 200
 
