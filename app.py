@@ -93,6 +93,9 @@ class sync(Resource):
                 return 201
             else:
                 return 200
+        if args['Command'] == 'getlatestclip':
+            Tid = T.getUserID(username, Tauth)
+            check = T.getlatestclip(Tid, Tauth)
 
         return check, 200
 

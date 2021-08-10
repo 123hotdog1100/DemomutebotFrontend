@@ -43,8 +43,10 @@ def getUserID(username, oauth):  # Gets the USERSID based on the Username they a
         req = requests.get(URL, headers=HEADERS)
         jsondata = req.json()
         if len(jsondata['data']) == 1:
-            ID = jsondata['id']
-            return ID
+            for data in jsondata['data']:
+                return data['id']
+        else:
+            pass
 
     except Exception as e:
         print(e)
@@ -68,3 +70,15 @@ def getstream(username, oauth):
     except Exception as e:
         print("Getting stream details: ", e)
         return False
+
+def getlatestclip(username,oauth):
+    HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
+    URL = BASE_URL + 'clips?broadcaster_id=' + str(username)#
+    try:
+        req = requests.get(URL,headers=HEADERS)
+        jsondata = req.json()
+        if len(jsondata['data']) > 1:
+            for data in jsondata['data']:
+                return data['url']
+    except Exception as e:
+        print(e)
