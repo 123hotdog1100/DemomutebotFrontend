@@ -71,14 +71,18 @@ def getstream(username, oauth):
         print("Getting stream details: ", e)
         return False
 
-def getlatestclip(username,oauth):
+def getlatestclip(id,oauth):
     HEADERS = {'client-id': CLIENT_ID, 'Authorization': 'Bearer ' + oauth}
-    URL = BASE_URL + 'clips?broadcaster_id=' + str(username)#
+    URL = BASE_URL + 'clips?broadcaster_id=' + str(id)
     try:
         req = requests.get(URL,headers=HEADERS)
         jsondata = req.json()
         if len(jsondata['data']) > 1:
             for data in jsondata['data']:
-                return data['url']
+                latest = data['url']
+                print(data['created_at'])
+            return latest
     except Exception as e:
         print(e)
+auth = getOauth()
+print(getlatestclip(getUserID("demomute", auth), auth))
