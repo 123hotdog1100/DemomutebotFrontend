@@ -48,7 +48,8 @@ sync_put_args.add_argument("ID", type=str, help="Server ID", required=True)
 
 checked = []
 
-
+title = ""
+vidurl = ""
 class Backend(Resource):
     @marshal_with(resource_fields)
     def get(self, ID):
@@ -122,7 +123,7 @@ class sync(Resource):
             abort(404, message="ID not checked")
 
 class ifft(Resource):
-    def put(self, command):
+    def put(self):
         global title, vidurl
         args = ifft_args.parse_args()
         print(args)
@@ -135,10 +136,12 @@ class ifft(Resource):
         global title, vidurl
         #args = ifftget.parse_args()
         #print(args)
-        if command == 'Title':
+        if command == 'Title' and title != "":
             return title, 200
-        elif command == 'URL':
+        elif command == 'URL' and vidurl != "":
             return vidurl, 200
+        elif title == "" and vidurl == "":
+            return "No vid", 205
         else:
             return 'Enter command', 400
 
@@ -150,4 +153,4 @@ app.register_blueprint(views, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0", port=80)
+    app.run(debug=False, host="0.0.0.0", port=81)
