@@ -24,6 +24,14 @@ update_args = reqparse.RequestParser()
 update_args.add_argument("prefix", type=str, help="Prefix of bot")
 update_args.add_argument("twitch", type=str, help="Twitch username")
 
+
+ifft_args = reqparse.RequestParser()
+ifft_args.add_argument("Title", type=str, help="Title of video", required=True)
+ifft_args.add_argument("URL", type=str,help="URl of video", required=True)
+
+ifftget = reqparse.RequestParser()
+ifftget.add_argument("Title", type=str, required=True)
+ifftget.add_argument("URL", type=str, required=True)
 resource_fields = {
     'id': fields.Integer,
     'twitch': fields.String,
@@ -113,9 +121,31 @@ class sync(Resource):
         else:
             abort(404, message="ID not checked")
 
+class ifft(Resource):
+    def put(self, command):
+        global title, vidurl
+        args = ifft_args.parse_args()
+        print(args)
+        title = args['Title']
+        vidurl = args['URL']
+        print("1")
+        return 201
+
+    def get(self, command):
+        global title, vidurl
+        #args = ifftget.parse_args()
+        #print(args)
+        if command == 'Title':
+            return title, 200
+        elif command == 'URL':
+            return vidurl, 200
+        else:
+            return 'Enter command', 400
+
 
 api.add_resource(Backend, "/api/<int:ID>")
 api.add_resource(sync, "/sync/<int:ID>")
+api.add_resource(ifft, "/ifft/<command>")
 app.register_blueprint(views, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')
 
